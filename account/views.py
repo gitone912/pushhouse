@@ -12,10 +12,12 @@ def user_data(request):
     except UserData.DoesNotExist:
         user_data = None
     return render(request, 'account/overview.html', {'user_data': user_data})
-
 @login_required(login_url='/signin')
 def edit_user_data(request):
-    user_data = request.user.userdata
+    try:
+        user_data = request.user.userdata
+    except UserData.DoesNotExist:
+        user_data = UserData(user=request.user)
     form = UserDataForm(instance=user_data)
     if request.method == 'POST':
         form = UserDataForm(request.POST, instance=user_data)
