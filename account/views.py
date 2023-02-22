@@ -2,11 +2,15 @@ from django.shortcuts import redirect, render
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import UserDataForm
+from .models import UserData
 # Create your views here.
 
 @login_required(login_url='/signin')
 def user_data(request):
-    user_data = request.user.userdata
+    try:
+        user_data = request.user.userdata
+    except UserData.DoesNotExist:
+        user_data = None
     return render(request, 'account/overview.html', {'user_data': user_data})
 
 @login_required(login_url='/signin')
