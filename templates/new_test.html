@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Select a plan</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <label for="plan">Select a plan:</label>
+    <select id="plan" name="plan">
+      {% for plan in plans %}
+        <option value="{{ plan.id }}">{{ plan.name }} (${{ plan.price }})</option>
+        
+      {% endfor %}
+    </select>
+    {{plans.1.name}}
+    {{plans.1.price}}
+    <button type="submit">Subscribe</button>
+  </form>
+{% endblock %}
