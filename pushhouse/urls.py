@@ -11,6 +11,7 @@ urlpatterns = [
     # Auth urls
     path('', include('account.urls')),
     path('', include('authentication.urls')),
+    path('', include('billing.urls')),
 ]
 
 handler404 = TemplateView.as_view(template_name='pages/system/not-found.html')
