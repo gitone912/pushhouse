@@ -6929,7 +6929,7 @@ License: For each use you must have a valid license purchased only from above li
 														<div class="d-flex flex-column py-2">
 															<!--begin::Owner-->
 															<div class="d-flex align-items-center fs-4 fw-bolder mb-5">{{credit_card.cardholder_name}}
-															<span class="badge badge-light-success fs-7 ms-2">Primary</span></div>
+															</div>
 															<!--end::Owner-->
 															<!--begin::Wrapper-->
 															<div class="d-flex align-items-center">
@@ -6948,8 +6948,10 @@ License: For each use you must have a valid license purchased only from above li
 														<!--end::Info-->
 														<!--begin::Actions-->
 														<div class="d-flex align-items-center py-2">
-															<button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-3">Delete</button>
-															<button class="btn btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_card">Edit</button>
+															<a href="{% url 'delete_credit_card' credit_card.id %}">
+															<button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-3">Delete</button></a>
+															<a href="{% url 'edit_credit_card' credit_card.id %}">
+															<button class="btn btn-sm btn-light btn-active-light-primary">Edit</button></a>
 														</div>
 														<!--end::Actions-->
 													</div>
@@ -7031,72 +7033,34 @@ License: For each use you must have a valid license purchased only from above li
 										<!--begin::Addresses-->
 										<div class="row gx-9 gy-6">
 											<!--begin::Col-->
+											{% for address in billing_addresses %}
+											
 											<div class="col-xl-6">
 												<!--begin::Address-->
 												<div class="card card-dashed h-xl-100 flex-row flex-stack flex-wrap p-6">
 													<!--begin::Details-->
 													<div class="d-flex flex-column py-2">
-														<div class="d-flex align-items-center fs-5 fw-bolder mb-5">Address 1
-														<span class="badge badge-light-success fs-7 ms-2">Primary</span></div>
-														<div class="fs-6 fw-bold text-gray-600">Ap #285-7193 Ullamcorper Avenue
-														<br />Amesbury HI 93373
-														<br />US</div>
+														<div class="d-flex align-items-center fs-5 fw-bolder mb-5">Address {{ forloop.counter }}
+														{% if address.is_default %}
+														<span class="badge badge-light-success fs-7 ms-2">Primary</span>{% endif %}</div>
+														<div class="fs-6 fw-bold text-gray-600">{{address.postal_code}} - {{address.address_line_1}}<br />{{address.city}} {{address.state}} <br />{{address.country}}</div>
+														
 													</div>
 													<!--end::Details-->
 													<!--begin::Actions-->
 													<div class="d-flex align-items-center py-2">
-														<button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-3">Delete</button>
-														<button class="btn btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_address">Edit</button>
+														<a href="{% url 'delete_billing_address' address.id %}">
+														<button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-3">Delete</button></a>
+														<a href="{% url 'edit_billing_address' address.id %}">
+														<button class="btn btn-sm btn-light">Edit</button></a>
 													</div>
 													<!--end::Actions-->
 												</div>
 												<!--end::Address-->
 											</div>
+											{% endfor %}
 											<!--end::Col-->
-											<!--begin::Col-->
-											<div class="col-xl-6">
-												<!--begin::Address-->
-												<div class="card card-dashed h-xl-100 flex-row flex-stack flex-wrap p-6">
-													<!--begin::Details-->
-													<div class="d-flex flex-column py-2">
-														<div class="d-flex align-items-center fs-5 fw-bolder mb-3">Address 2</div>
-														<div class="fs-6 fw-bold text-gray-600">Ap #285-7193 Ullamcorper Avenue
-														<br />Amesbury HI 93373
-														<br />US</div>
-													</div>
-													<!--end::Details-->
-													<!--begin::Actions-->
-													<div class="d-flex align-items-center py-2">
-														<button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-3">Delete</button>
-														<button class="btn btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_address">Edit</button>
-													</div>
-													<!--end::Actions-->
-												</div>
-												<!--end::Address-->
-											</div>
-											<!--end::Col-->
-											<!--begin::Col-->
-											<div class="col-xl-6">
-												<!--begin::Address-->
-												<div class="card card-dashed h-xl-100 flex-row flex-stack flex-wrap p-6">
-													<!--begin::Details-->
-													<div class="d-flex flex-column py-2">
-														<div class="d-flex align-items-center fs-5 fw-bolder mb-3">Address 3</div>
-														<div class="fs-6 fw-bold text-gray-600">Ap #285-7193 Ullamcorper Avenue
-														<br />Amesbury HI 93373
-														<br />US</div>
-													</div>
-													<!--end::Details-->
-													<!--begin::Actions-->
-													<div class="d-flex align-items-center py-2">
-														<button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-3">Delete</button>
-														<button class="btn btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_new_address">Edit</button>
-													</div>
-													<!--end::Actions-->
-												</div>
-												<!--end::Address-->
-											</div>
-											<!--end::Col-->
+											
 											<!--begin::Col-->
 											<div class="col-xl-6">
 												<!--begin::Notice-->
@@ -7110,7 +7074,7 @@ License: For each use you must have a valid license purchased only from above li
 														</div>
 														<!--end::Content-->
 														<!--begin::Action-->
-														<a href="#" class="btn btn-primary px-6 align-self-center text-nowrap" data-bs-toggle="modal" data-bs-target="#kt_modal_new_address">New Address</a>
+														<a href="{% url 'add_billing_address' %}" class="btn btn-primary px-6 align-self-center text-nowrap" >New Address</a>
 														<!--end::Action-->
 													</div>
 													<!--end::Wrapper-->
