@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'dashboard',
     'authentication',
     'billing',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

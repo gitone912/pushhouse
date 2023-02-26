@@ -1,7 +1,7 @@
 
 # Register your models here.
 from django.contrib import admin
-from .models import Plan, Subscription
+from .models import Plan, Subscription,newdata
 
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
@@ -20,3 +20,5 @@ class SubscriptionAdmin(admin.ModelAdmin):
     def user_email(self, obj):
         return obj.user.email
     user_email.short_description = 'Email'
+    
+admin.site.register(newdata)

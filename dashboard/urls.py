@@ -8,4 +8,6 @@ urlpatterns = [
    path('project_dashboard/', views.project_dashboard, name='project_dashboard'),
    path('monthly/', views.select_monthly_plan, name='monthly'),
    path('yearly/', views.select_yearly_plan, name='yearly'),
+   path("script/", views.run_script, name="scripts"),
+   path('test/', views.test, name='test'),
 ]

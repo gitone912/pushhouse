@@ -26,3 +26,28 @@ class Subscription(models.Model):
             self.start_date = date.today()
             self.end_date = self.start_date + timedelta(days=self.plan.duration)
         super().save(*args, **kwargs)
+        
+        
+
+class newdata(models.Model):
+    Isim = models.CharField(max_length=255,blank=True,null=True)
+    Soyisim = models.CharField(max_length=255,blank=True,null=True)
+    SmsIzin = models.BooleanField(blank=True,null=True)
+    CepTelefonu = models.CharField(max_length=255,blank=True,null=True)
+    UyeID = models.IntegerField(blank=True,null=True)
+    products_1 = models.CharField(max_length=255,blank=True,null=True)
+    products_2 = models.CharField(max_length=255,blank=True,null=True)
+    products_3 = models.CharField(max_length=255,blank=True,null=True)
+    products_4 = models.CharField(max_length=255,blank=True,null=True)
+    products_5 = models.CharField(max_length=255,blank=True,null=True)
+    products_6 = models.CharField(max_length=255,blank=True,null=True)
+    products_7 = models.CharField(max_length=255,blank=True,null=True)
+    products_8 = models.CharField(max_length=255,blank=True,null=True)
+    products_9 = models.CharField(max_length=255,blank=True,null=True)
+    products_10 = models.CharField(max_length=255,blank=True,null=True)
+    products_11 = models.CharField(max_length=255,blank=True,null=True)
+    products_12 = models.CharField(max_length=255,blank=True,null=True)
+    products_13 = models.CharField(max_length=255,blank=True,null=True)
+    products_14 = models.CharField(max_length=255,blank=True,null=True)
+    def __str__(self):
+        return self.Isim
