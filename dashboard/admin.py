@@ -5,7 +5,7 @@ from .models import Plan, Subscription
 
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price')
+    list_display = ('name', 'price','messages_limit', 'duration')
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):

@@ -24,4 +24,4 @@ def edit_user_data(request):
         if form.is_valid():
             form.save()
             return redirect('/overview')
-    return render(request, 'account/edit_profile.html', {'form': form})
+    return render(request, 'account/settings.html', {'form': form})

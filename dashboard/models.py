@@ -5,7 +5,7 @@ from django.db import models
 from datetime import date, timedelta
 class Plan(models.Model):
     name = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    messages_limit = models.CharField(max_length=255,null=True, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     duration = models.PositiveIntegerField(blank=True, null=True)  # duration in days
 
