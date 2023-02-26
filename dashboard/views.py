@@ -9,6 +9,7 @@ from .models import Plan, Subscription
 def dashboard(request):
     return render(request, 'index.html')
 
+@login_required(login_url='/signin')
 def project_dashboard(request):
     return render(request, 'dashboards/projects.html')
 
