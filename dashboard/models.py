@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 from django.db import models
-from datetime import date, timedelta
+from datetime import date, timedelta, timezone
 class Plan(models.Model):
     name = models.CharField(max_length=255)
     messages_limit = models.CharField(max_length=255,null=True, blank=True)
@@ -30,24 +30,27 @@ class Subscription(models.Model):
         
 
 class newdata(models.Model):
-    Isim = models.CharField(max_length=255,blank=True,null=True)
-    Soyisim = models.CharField(max_length=255,blank=True,null=True)
-    SmsIzin = models.BooleanField(blank=True,null=True)
-    CepTelefonu = models.CharField(max_length=255,blank=True,null=True)
-    UyeID = models.IntegerField(blank=True,null=True)
-    products_1 = models.CharField(max_length=255,blank=True,null=True)
-    products_2 = models.CharField(max_length=255,blank=True,null=True)
-    products_3 = models.CharField(max_length=255,blank=True,null=True)
-    products_4 = models.CharField(max_length=255,blank=True,null=True)
-    products_5 = models.CharField(max_length=255,blank=True,null=True)
-    products_6 = models.CharField(max_length=255,blank=True,null=True)
-    products_7 = models.CharField(max_length=255,blank=True,null=True)
-    products_8 = models.CharField(max_length=255,blank=True,null=True)
-    products_9 = models.CharField(max_length=255,blank=True,null=True)
-    products_10 = models.CharField(max_length=255,blank=True,null=True)
-    products_11 = models.CharField(max_length=255,blank=True,null=True)
-    products_12 = models.CharField(max_length=255,blank=True,null=True)
-    products_13 = models.CharField(max_length=255,blank=True,null=True)
-    products_14 = models.CharField(max_length=255,blank=True,null=True)
+    Isim = models.CharField(max_length=255, blank=True, null=True)
+    Soyisim = models.CharField(max_length=255, blank=True, null=True)
+    SmsIzin = models.BooleanField(blank=True, null=True)
+    CepTelefonu = models.CharField(max_length=255, blank=True, null=True)
+    UyeID = models.IntegerField(primary_key=True,default=0)
+    products_1 = models.CharField(max_length=255, blank=True, null=True)
+    products_2 = models.CharField(max_length=255, blank=True, null=True)
+    products_3 = models.CharField(max_length=255, blank=True, null=True)
+    products_4 = models.CharField(max_length=255, blank=True, null=True)
+    products_5 = models.CharField(max_length=255, blank=True, null=True)
+    products_6 = models.CharField(max_length=255, blank=True, null=True)
+    products_7 = models.CharField(max_length=255, blank=True, null=True)
+    products_8 = models.CharField(max_length=255, blank=True, null=True)
+    products_9 = models.CharField(max_length=255, blank=True, null=True)
+    products_10 = models.CharField(max_length=255, blank=True, null=True)
+    products_11 = models.CharField(max_length=255, blank=True, null=True)
+    products_12 = models.CharField(max_length=255, blank=True, null=True)
+    products_13 = models.CharField(max_length=255, blank=True, null=True)
+    products_14 = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
-        return self.Isim
+        return str(self.UyeID)

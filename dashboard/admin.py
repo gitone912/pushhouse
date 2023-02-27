@@ -21,4 +21,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
         return obj.user.email
     user_email.short_description = 'Email'
     
-admin.site.register(newdata)
+class newdataAdmin(admin.ModelAdmin):
+    list_display = ('Isim', 'Soyisim', 'SmsIzin', 'CepTelefonu', 'UyeID', 'created_at', 'updated_at')
+
+admin.site.register(newdata, newdataAdmin)

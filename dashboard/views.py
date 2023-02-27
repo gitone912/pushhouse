@@ -5,9 +5,9 @@ from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 from rest_framework.parsers import JSONParser
 from dashboard.forms import userdataform
-from .models import Plan, Subscription
+from .models import Plan, Subscription, newdata
 import json
-
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 @login_required(login_url='/signin')
@@ -69,11 +69,6 @@ import csv
 from django.http import HttpResponse
 
 def run_script(request):
-    import requests
-    import lxml.etree as ET
-    import datetime
-    import csv
-
     # Get current server time
     now = datetime.datetime.now()
 
@@ -321,31 +316,36 @@ def run_script(request):
         writer.writeheader()
         writer.writerows(combined_data)
         
-def test(request):
-    now = datetime.datetime.now()
-    # with open('dashboard/data/merged_data.csv', 'r',encoding='utf-8') as f:
-    #     reader = csv.DictReader(f)
-    #     rows = list(reader)
+
+    with open(merged_file, 'r',encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
 
     # # Open the JSON file and write the rows as JSON objects
-    # with open('dashboard/data/merged.json', 'w',encoding='utf-8') as f:
-    #     json.dump(rows, f,ensure_ascii=False)
+    with open('dashboard/data/merged.json', 'w',encoding='utf-8') as f:
+        json.dump(rows, f,ensure_ascii=False)
     
         # Load the JSON data from the request
-    with open('dashboard/data/merged.json', 'r',encoding='utf-8') as f:
+
+    with open('dashboard/data/merged.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
     json_data = data
-    json_data_str = json.dumps(json_data , ensure_ascii=False)
+    json_data_str = json.dumps(json_data, ensure_ascii=False)
     stream = io.BytesIO(json_data_str.encode())
     pythondata = JSONParser().parse(stream)
-    serializer = userdataform(data=pythondata, many=True)
-    print(serializer)
-    if serializer.is_valid():
-        serializer.save()
-        print("form saved")
-        # Return a success response
-        return redirect('/project_dashboard')
-    
-    print("form not saved")
-    # Render the update data template
-    return redirect('/dashboard')
+
+    for item in pythondata:
+        uyeid = item['UyeID']
+        try:
+            user_data = newdata.objects.get(UyeID=uyeid)
+            serializer = userdataform(user_data, data=item)
+        except ObjectDoesNotExist:
+            serializer = userdataform(data=item)
+
+        if serializer.is_valid():
+            serializer.save()
+            print("form saved")
+        else:
+            print("form not saved")
+
+    return redirect('/project_dashboard')
