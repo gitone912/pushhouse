@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 from rest_framework.parsers import JSONParser
 from dashboard.forms import userdataform
-from .models import Plan, Subscription, newdata
+from .models import Plan, Subscription, newdata,fetch_data
 import json
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -68,7 +68,11 @@ import datetime
 import csv
 from django.http import HttpResponse
 
+
 def run_script(request):
+    current_user = request.user
+    website = fetch_data.objects.get(user=current_user).website_link
+    uni_code = fetch_data.objects.get(user=current_user).uni_code
     # Get current server time
     now = datetime.datetime.now()
 
@@ -93,11 +97,11 @@ def run_script(request):
     <x:Envelope
         xmlns:x="http://schemas.xmlsoap.org/soap/envelope/"
         xmlns:tem="http://tempuri.org/"
-        xmlns:ndf="http://karumrouge.com/servis/SiparisServis.svc?wsdl">
+        xmlns:ndf="{}servis/SiparisServis.svc?wsdl">
         <x:Header/>
         <x:Body>
             <tem:SelectSepet>
-                <tem:UyeKodu>1MAG6YAT4FFLA1FG5Y1UJFQE10JK6T</tem:UyeKodu>
+                {}
                 <tem:sepetId>-1</tem:sepetId>
                 <tem:uyeId>-1</tem:uyeId>
                 <tem:BaslangicTarihi>{}</tem:BaslangicTarihi>
@@ -105,7 +109,7 @@ def run_script(request):
             </tem:SelectSepet>
         </x:Body>
     </x:Envelope>
-    """.format(start_time_str, end_time_str)
+    """.format(website,uni_code,start_time_str, end_time_str)
 
     response = requests.post(url, data=xml, headers=headers)
 

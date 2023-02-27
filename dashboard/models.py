@@ -30,6 +30,7 @@ class Subscription(models.Model):
         
 
 class newdata(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
     Isim = models.CharField(max_length=255, blank=True, null=True)
     Soyisim = models.CharField(max_length=255, blank=True, null=True)
     SmsIzin = models.BooleanField(blank=True, null=True)
@@ -54,3 +55,10 @@ class newdata(models.Model):
 
     def __str__(self):
         return str(self.UyeID)
+    
+class fetch_data(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    website_link = models.CharField(max_length=255, blank=True, null=True,default='http://karumrouge.com/')
+    uni_code = models.CharField(max_length=255, blank=True, null=True,default='<tem:UyeKodu>1MAG6YAT4FFLA1FG5Y1UJFQE10JK6T</tem:UyeKodu>')
+    def __str__(self):
+        return self.website_link
