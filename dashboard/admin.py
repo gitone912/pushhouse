@@ -23,7 +23,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
     
 class newdataAdmin(admin.ModelAdmin):
     list_display = ('Isim', 'Soyisim', 'SmsIzin', 'CepTelefonu', 'UyeID', 'created_at', 'updated_at')
-
+    list_filter = ('user',)
 admin.site.register(newdata, newdataAdmin)
 
 class fetch_dataAdmin(admin.ModelAdmin):

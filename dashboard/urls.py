@@ -9,4 +9,5 @@ urlpatterns = [
    path('monthly/', views.select_monthly_plan, name='monthly'),
    path('yearly/', views.select_yearly_plan, name='yearly'),
    path("script/", views.run_script, name="script"),
+   
 ]

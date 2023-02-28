@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 import io
-from django.shortcuts import render , redirect
+from django.shortcuts import get_object_or_404, render , redirect
 from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 from rest_framework.parsers import JSONParser
@@ -8,7 +8,11 @@ from dashboard.forms import userdataform
 from .models import Plan, Subscription, newdata,fetch_data
 import json
 from django.core.exceptions import ObjectDoesNotExist
-
+import requests
+import lxml.etree as ET
+import datetime
+import csv
+from django.http import HttpResponse
 # Create your views here.
 @login_required(login_url='/signin')
 def dashboard(request):
@@ -61,16 +65,25 @@ def select_yearly_plan(request):
     return render(request, 'yearly_plan.html', {'plans': plans})
 
 
-from django.shortcuts import render
-import requests
-import lxml.etree as ET
-import datetime
-import csv
-from django.http import HttpResponse
+# def get_data(request):
+#     data = get_object_or_404(fetch_data, user=request.user)
+#     if data:
+#         data.website_link = "http://karumrouge.com/"
+#         data.uni_code = "<tem:UyeKodu>1MAG6YAT4FFLA1FG5Y1UJFQE10JK6T</tem:UyeKodu>"
+#     else:
+#         data = fetch_data(
+#                 user=request.user,
+#                 website_link="http://karumrouge.com/",
+#                 uni_code="<tem:UyeKodu>1MAG6YAT4FFLA1FG5Y1UJFQE10JK6T</tem:UyeKodu>"
+#             )
+#     data.save()
+#     return redirect('/updatingdata')
 
 
 def run_script(request):
+    
     current_user = request.user
+    
     website = fetch_data.objects.get(user=current_user).website_link
     uni_code = fetch_data.objects.get(user=current_user).uni_code
     # Get current server time
@@ -341,9 +354,10 @@ def run_script(request):
     for item in pythondata:
         uyeid = item['UyeID']
         try:
-            user_data = newdata.objects.get(UyeID=uyeid)
+            user_data = newdata.objects.get(UyeID=uyeid,user=request.user)
             serializer = userdataform(user_data, data=item)
         except ObjectDoesNotExist:
+            item['user'] = request.user.id
             serializer = userdataform(data=item)
 
         if serializer.is_valid():
